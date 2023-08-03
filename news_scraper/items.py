@@ -14,4 +14,5 @@ class Article(scrapy.Item):
     date = scrapy.Field()
     url = scrapy.Field()
     text = scrapy.Field()
+    related_articles = scrapy.Field()
     pass
