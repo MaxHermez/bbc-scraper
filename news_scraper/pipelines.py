@@ -8,6 +8,7 @@
 from itemadapter import ItemAdapter
 
 
-class BbcScraperPipeline:
+class MongoPipeline:
+    collection_name = "articles"
     def process_item(self, item, spider):
         return item
