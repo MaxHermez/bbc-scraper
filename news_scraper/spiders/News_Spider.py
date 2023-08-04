@@ -4,25 +4,28 @@ from news_scraper.items import Article
 from datetime import datetime
 
 text_junk = [
-    r"Follow Newsbeat on[\s\S]*$", # usually appears at the end of each article
-    "Image source[\s\S]*?Image caption,? ?\n?", # image captions
+    r"Follow Newsbeat on[\s\S]*$",  # usually appears at the end of each article
+    "Image source[\s\S]*?Image caption,? ?\n?",  # image captions
 ]
+
 
 def clean_text(texts: list[str]) -> str:
     """Joins all the text in a list of strings into a single string, and cleans it up.
     Removes whitespace from the beginning and end of a string, and replaces
-    all whitespace in the middle with a single space, except for new lines. Removes any text matching 
+    all whitespace in the middle with a single space, except for new lines. Removes any text matching
     one of the text_junk strings defined above.
     """
     text = ""
     for t in texts:
         text += t
-        if not t.endswith(" "): # if the string doesn't end with a space, start a new line
+        if not t.endswith(
+            " "
+        ):  # if the string doesn't end with a space, start a new line
             text += "\n"
     for junk in text_junk:
-        text = sub(junk, "", text) # remove junk text
-    text = sub(r" {2,}", " ", text) # replace multiple spaces with a single space
-    text = text.replace("\n.\n", ".\n") # remove new lines between sentences
+        text = sub(junk, "", text)  # remove junk text
+    text = sub(r" {2,}", " ", text)  # replace multiple spaces with a single space
+    text = text.replace("\n.\n", ".\n")  # remove new lines between sentences
     return text
 
 
@@ -33,12 +36,6 @@ class NewsSpider(scrapy.Spider):
         "https://www.bbc.com/news",
         "https://www.bbc.com/news/newsbeat",
     ]
-    # custom_settings = {
-    #     'DOWNLOADER_MIDDLEWARES' : {
-    #             'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,
-    #             'scrapy_fake_useragent.middleware.RandomUserAgentMiddleware': 400,
-    #         }
-    # }
 
     def parse(self, response: scrapy.http.Response):
         # Base case: if we're not on the news page, stop
