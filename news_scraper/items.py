@@ -9,6 +9,7 @@ import scrapy
 class Article(scrapy.Item):
     title = scrapy.Field()
     author = scrapy.Field()
+    author_title = scrapy.Field()
     topic = scrapy.Field()
     related_topics = scrapy.Field()
     date = scrapy.Field()
